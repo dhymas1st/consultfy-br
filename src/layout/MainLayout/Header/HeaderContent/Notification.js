@@ -150,11 +150,11 @@ const Notification = () => {
                                             <ListItemText
                                                 primary={
                                                     <Typography variant="h6">
-                                                        It&apos;s{' '}
+                                                        Parabéns{' '}
                                                         <Typography component="span" variant="subtitle1">
-                                                            Cristina danny&apos;s
+                                                            Erick Said&apos;s
                                                         </Typography>{' '}
-                                                        birthday today.
+                                                        feliz aniversário
                                                     </Typography>
                                                 }
                                                 secondary="2 min ago"
@@ -181,9 +181,9 @@ const Notification = () => {
                                                 primary={
                                                     <Typography variant="h6">
                                                         <Typography component="span" variant="subtitle1">
-                                                            Aida Burg
+                                                            Envie sua notas de corretagem
                                                         </Typography>{' '}
-                                                        commented your post.
+                                                        até o dia 31/09
                                                     </Typography>
                                                 }
                                                 secondary="5 August"
@@ -209,9 +209,9 @@ const Notification = () => {
                                             <ListItemText
                                                 primary={
                                                     <Typography variant="h6">
-                                                        Your Profile is Complete &nbsp;
+                                                        Seu perfil está incompleto,&nbsp;
                                                         <Typography component="span" variant="subtitle1">
-                                                            60%
+                                                            conclua o seu cadastro
                                                         </Typography>{' '}
                                                     </Typography>
                                                 }
@@ -239,15 +239,15 @@ const Notification = () => {
                                                 primary={
                                                     <Typography variant="h6">
                                                         <Typography component="span" variant="subtitle1">
-                                                            Cristina Danny
+                                                            Erick Said
                                                         </Typography>{' '}
-                                                        invited to join{' '}
+                                                        seu imposto de renda está disponível{' '}
                                                         <Typography component="span" variant="subtitle1">
-                                                            Meeting.
+                                                            {/*Meeting.*/}
                                                         </Typography>
                                                     </Typography>
                                                 }
-                                                secondary="Daily scrum meeting time"
+                                                secondary="Clique para acessar"
                                             />
                                             <ListItemSecondaryAction>
                                                 <Typography variant="caption" noWrap>
@@ -260,7 +260,7 @@ const Notification = () => {
                                             <ListItemText
                                                 primary={
                                                     <Typography variant="h6" color="primary">
-                                                        View All
+                                                        Ver tudo
                                                     </Typography>
                                                 }
                                             />

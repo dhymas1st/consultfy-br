@@ -5,7 +5,10 @@ import {
     BarcodeOutlined,
     BgColorsOutlined,
     FontSizeOutlined,
-    LoadingOutlined
+    LoadingOutlined,
+    GlobalOutlined,
+    CopyOutlined,
+    LoginOutlined
 } from '@ant-design/icons';
 
 // icons
@@ -15,7 +18,10 @@ const icons = {
     BarcodeOutlined,
     AntDesignOutlined,
     LoadingOutlined,
-    AppstoreAddOutlined
+    AppstoreAddOutlined,
+    GlobalOutlined,
+    CopyOutlined,
+    LoginOutlined
 };
 
 // ==============================|| MENU ITEMS - UTILITIES ||============================== //
@@ -30,7 +36,7 @@ const utilities = {
             title: 'Obrigações',
             type: 'item',
             url: '/offshore-obrigacoes',
-            icon: icons.FontSizeOutlined,
+            icon: icons.LoginOutlined,
             breadcrumbs: false
         },
         {
@@ -38,7 +44,7 @@ const utilities = {
             title: 'Relatórios',
             type: 'item',
             url: '/offshore-relatorios',
-            icon: icons.BgColorsOutlined,
+            icon: icons.CopyOutlined,
             breadcrumbs: false
         }
     ]

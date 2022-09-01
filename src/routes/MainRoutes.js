@@ -10,6 +10,7 @@ import MyInvestments from 'pages/meus-ativos/index';
 import OffshoreObligations from 'pages/offshore-obrigacoes/index';
 import OffshoreReports from 'pages/offshore-relatorios/index';
 import Summary from 'pages/resumo/index';
+import Perfil from 'pages/perfil/index';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -89,6 +90,10 @@ const MainRoutes = {
         {
             path: 'resumo',
             element: <Summary />
+        },
+        {
+            path: 'perfil',
+            element: <Perfil />
         }
     ]
 };

@@ -4,7 +4,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 // ==============================|| DRAWER CONTENT - NAVIGATION CARD ||============================== //
 
-const CardImportNotes = ({ onChange }) => (
+const CardImportNotes = () => (
     <Card variant="outlined" sx={{ p: 4 }}>
         <Stack alignItems="center" spacing={2.5}>
             <Stack alignItems="center">
@@ -15,8 +15,8 @@ const CardImportNotes = ({ onChange }) => (
                 </Typography>
             </Stack>
             <Button variant="contained" component="label">
-                Importar nota
-                <input hidden accept="image/*" multiple type="file" onChange={onChange} />
+                Importar saldo inicial
+                <input hidden accept="image/*" multiple type="file" />
             </Button>
         </Stack>
     </Card>

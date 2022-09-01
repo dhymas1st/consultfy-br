@@ -1,9 +1,11 @@
 // assets
-import { DashboardOutlined } from '@ant-design/icons';
+import { DashboardOutlined, BulbOutlined, DollarOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
-    DashboardOutlined
+    DashboardOutlined,
+    BulbOutlined,
+    DollarOutlined
 };
 
 // ==============================|| MENU ITEMS - DASHBOARD ||============================== //
@@ -18,7 +20,7 @@ const dashboard = {
             title: 'Assistente Virtual',
             type: 'item',
             url: '/assistente-virtual',
-            icon: icons.DashboardOutlined,
+            icon: icons.BulbOutlined,
             breadcrumbs: false
         },
         {
@@ -34,7 +36,7 @@ const dashboard = {
             title: 'Meus Ativos',
             type: 'item',
             url: '/meus-ativos',
-            icon: icons.DashboardOutlined,
+            icon: icons.DollarOutlined,
             breadcrumbs: false
         }
     ]

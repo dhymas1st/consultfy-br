@@ -5,10 +5,14 @@ import { useState, useEffect } from 'react';
 import { DataGridPro, GridColDef, GridToolbar, ptBR } from '@mui/x-data-grid-pro';
 import { LicenseInfo } from '@mui/x-license-pro';
 import CollapsibleTable from './CollapsibleTable';
-import axios from '../../../node_modules/axios/index';
+import api from 'services/api';
+import { object } from 'prop-types';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
+<<<<<<< HEAD
 const ENDPOINT = 'http://15.228.251.22:3000/getOperacoesbyClient';
+=======
+>>>>>>> 5962d847e9d9cf129bd5be804eaa660da75ccc0b
 const ColumnsTest = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
@@ -24,6 +28,7 @@ const ColumnsTest = [
         width: 150,
         editable: false
     },
+    /*
     {
         field: 'vlr_unit',
         headerName: 'Valor Unitário',
@@ -31,6 +36,7 @@ const ColumnsTest = [
         width: 110,
         editable: false
     },
+    */
     {
         field: 'avg_price',
         headerName: 'Preço Medio',
@@ -46,9 +52,8 @@ const ColumnsTest = [
         editable: false
     }
 ];
-
 const columnsVrMean = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'id', width: 90 },
     {
         field: 'paper',
         headerName: 'Empresa',
@@ -64,7 +69,7 @@ const columnsVrMean = [
     },
     {
         field: 'vlr_unit',
-        headerName: 'Valor Unitário',
+        headerName: 'Preço Medio',
         type: 'number',
         width: 110,
         editable: true
@@ -74,6 +79,12 @@ const columnsVrMean = [
         field: 'price',
         headerName: 'Total',
         type: 'number',
+        width: 110,
+        editable: true
+    },
+    {
+        field: 'tipo',
+        headerName: 'Tipo',
         width: 110,
         editable: true
     },
@@ -555,11 +566,9 @@ export const TabsMenu = () => {
     const [operations, setOperations] = useState([]);
 
     useEffect(() => {
-        Axios.post(ENDPOINT, { cpf: '214.487.188-48' }).then((res) => {
+        api.post('/getOperacoesbyClient', { cpf: '214.487.188-48' }).then((res) => {
             let datas = res.data;
             let inf = [];
-            //let objs = {};
-            datas.length = 100;
             /*const infos = res.data.reduce((acc, item) => {
                 if (!inf.find((el) => el == item.titulo)) {
                     console.log(item.titulo);
@@ -577,69 +586,105 @@ export const TabsMenu = () => {
                         transactions: [item]
                     });
                 }
+                /*
+api.post('/getResumoFinanceiro', {
+                            cpf: el.cpf_cnpj,
+                            nr_nota: el.numero_nf
+                        }).then((res) => {
+                            Object.assign(el, res.data[0]);
+                            console.log(el);
+                        });
+                        */
+                //api.post('/getResFinOp');
                 setDados(inf);
             });
+
+            let acoes = [];
+            /* Busca Resumos FIn
+            inf.map((item) => {
+                item.transactions.reduce((acc, el) => {
+                    console.log(Acoes);
+                    console.log(el.titulo);
+                    if (acoes.find((e) => e.titulo == el.titulo)) {
+                        if (!acoes.find((e) => e.numero_nf)) {
+                            const index = acoes.findIndex((e) => e.titulo == el.titulo);
+                            return acoes.push({
+                                papper: el.titulo,
+                                papper: el.numero_nf
+                            });
+                        }
+                    } else {
+                        return acoes.push({
+                            papper: el.titulo,
+                            papper: el.numero_nf
+                        });
+                    }
+                }, []);
+            });
+            */
 
             const dadostabela = inf.map((item, array, i) => {
                 const id = inf.findIndex((el) => el.papper == item.papper);
                 const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
-                const preco = item.transactions.reduce((acc, item) => acc + parseInt(item.preco), 0);
-                const valor = item.transactions.reduce((acc, item) => acc + parseInt(item.valor), 0);
+                const preco = item.transactions.reduce((acc, item) => acc + parseFloat(item.preco), 0);
+                const valor = item.transactions.reduce((acc, item) => acc + parseFloat(item.valor), 0);
                 const avg = preco / item.transactions.length;
-                console.log(item);
+
+                /*
+                const emoluentes = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_emolumento), 0);
+                const taxas = item.transactions.reduce((acc, item) => acc + parseFloat(item.taxes), 0);
+                const TaxasTotal = item.transactions.reduce((acc, item) => acc + parseFloat(item.taxes), 0);
+                const taxasLiquida = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_liquid), 0);
+                const taxasOperacao = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_impostos), 0);
+                const taxasRegistro = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_registro), 0);
+                const outras = item.transactions.reduce((acc, item) => acc + parseFloat(item.tx_outras), 0);
+                */
+                const tipo = item.transactions[0].debit_credit;
+                const emolumentos = parseFloat(item.transactions[0].fees);
+                const taxas = parseFloat(item.transactions[0].taxes);
+                const TaxasTotal = parseFloat(item.transactions[0].taxes);
+                const taxasLiquida = parseFloat(item.transactions[0].taxes);
+                const taxasOperacao = parseFloat(item.transactions[0].taxes);
+                const taxasRegistro = parseFloat(item.transactions[0].taxes);
+                const outros = parseFloat(item.transactions[0].taxes);
                 return {
                     id: id,
-                    papper: item.papper,
+                    paper: item.papper,
                     quantity: quantidade,
-                    vlr_unit: preco,
-                    avg_price: avg,
-                    price: valor
+                    //vlr_unit: preco,
+                    vlr_unit: avg.toFixed(2),
+                    price: valor.toFixed(2),
+                    tipo: tipo,
+                    emolumnts: emolumentos.toFixed(2),
+                    taxes: taxas.toFixed(2),
+                    total_taxes: TaxasTotal.toFixed(2),
+                    tx_liquid: taxasLiquida.toFixed(2),
+                    tx_operation: taxasOperacao.toFixed(2),
+                    tx_reg: taxasRegistro.toFixed(2),
+                    others: outros.toFixed(2)
                 };
             });
 
+            /*
+                    id - id
+                    empresa - paper
+                    quantidade  -  quantity
+                    valor unitario  -  vlr_unit
+                    total  -  price
+                    emoluentes  -  emolumnts
+                    taxas  -  taxes
+                    total de taxas  -  total_taxes
+                    taxa liqueida  -  tx_liquid
+                    taxa de operacao  -  tx_operation
+                    taxa de registro  -  tx_reg
+                    outas  -  others
+
+                */
+            console.log(dadostabela);
             setRows(dadostabela);
-
-            //}, []);
         }, []);
-        // console.log(dados);
     }, []);
-    /*[
-        {
-            paper: 
-            transactions: [
-                1..,
-                2..
-            ]
-        }
-    ]
-
-
-    : "AMBEV S/A          ON"
-transactions: Array(24)
-0:
-brokerage: "0"
-cpf_cnpj: "214.487.188-48"
-debit_credit: "C"
-fees: "189.58"
-id: 1
-liquidation_fee: "0"
-negociacao: "1-BOVESPA"
-numero_nf: "31840164"
-observacao: ""
-outros: "0"
-pagina: "1"
-preco: "14.66"
-q: ""
-quantidade: "500"
-registration_fee: "0"
-taxes: "0"
-term: ""
-tipo_mercado: "VISTA"
-tipo_operacao: "V"
-titulo: "AMBEV S/A          ON"
-total: "189.58"
-valor: "7330.0"
-    */
+    console.log(Rows);
     return (
         <Box>
             <TabContext value={value}>
@@ -655,7 +700,7 @@ valor: "7330.0"
                     <Box sx={{ height: 500, width: '100%' }}>
                         <DataGridPro
                             rows={Rows}
-                            columns={ColumnsTest}
+                            columns={columnsVrMean}
                             pageSize={5}
                             rowsPerPageOptions={[5]}
                             checkboxSelection

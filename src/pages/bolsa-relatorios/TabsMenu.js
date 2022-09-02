@@ -8,7 +8,7 @@ import CollapsibleTable from './CollapsibleTable';
 import axios from '../../../node_modules/axios/index';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
-const ENDPOINT = 'http://15.228.251.22:3000/geOperacoesbyClient';
+const ENDPOINT = 'http://15.228.251.22:3000/getOperacoesbyClient';
 const ColumnsTest = [
     { field: 'id', headerName: 'ID', width: 90 },
     {

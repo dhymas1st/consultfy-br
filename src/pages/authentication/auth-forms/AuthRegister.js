@@ -86,7 +86,7 @@ const AuthRegister = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="firstname-signup">First Name*</InputLabel>
+                                    <InputLabel htmlFor="firstname-signup">Nome*</InputLabel>
                                     <OutlinedInput
                                         id="firstname-login"
                                         type="firstname"
@@ -94,7 +94,7 @@ const AuthRegister = () => {
                                         name="firstname"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="John"
+                                        placeholder="Digite o seu nome"
                                         fullWidth
                                         error={Boolean(touched.firstname && errors.firstname)}
                                     />
@@ -107,7 +107,7 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="lastname-signup">Last Name*</InputLabel>
+                                    <InputLabel htmlFor="lastname-signup">Sobrenome*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         error={Boolean(touched.lastname && errors.lastname)}
@@ -117,7 +117,7 @@ const AuthRegister = () => {
                                         name="lastname"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="Doe"
+                                        placeholder="Digite o seu sobrenome"
                                         inputProps={{}}
                                     />
                                     {touched.lastname && errors.lastname && (
@@ -127,7 +127,7 @@ const AuthRegister = () => {
                                     )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={12}>
+                            {/*<Grid item xs={12}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="company-signup">Company</InputLabel>
                                     <OutlinedInput
@@ -147,10 +147,10 @@ const AuthRegister = () => {
                                         </FormHelperText>
                                     )}
                                 </Stack>
-                            </Grid>
+                                    </Grid>*/}
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
+                                    <InputLabel htmlFor="email-signup">Email*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         error={Boolean(touched.email && errors.email)}
@@ -160,7 +160,7 @@ const AuthRegister = () => {
                                         name="email"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="demo@company.com"
+                                        placeholder="Digite o seu e-mail"
                                         inputProps={{}}
                                     />
                                     {touched.email && errors.email && (
@@ -172,7 +172,7 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="password-signup">Password</InputLabel>
+                                    <InputLabel htmlFor="password-signup">Senha*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         error={Boolean(touched.password && errors.password)}
@@ -222,13 +222,13 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="body2">
-                                    By Signing up, you agree to our &nbsp;
+                                    Ao se inscrever, você concorda com nossos &nbsp;
                                     <Link variant="subtitle2" component={RouterLink} to="#">
-                                        Terms of Service
+                                        Termos
                                     </Link>
-                                    &nbsp; and &nbsp;
+                                    &nbsp; e &nbsp;
                                     <Link variant="subtitle2" component={RouterLink} to="#">
-                                        Privacy Policy
+                                        Política de privacidade
                                     </Link>
                                 </Typography>
                             </Grid>
@@ -248,13 +248,13 @@ const AuthRegister = () => {
                                         variant="contained"
                                         color="primary"
                                     >
-                                        Create Account
+                                        Criar conta
                                     </Button>
                                 </AnimateButton>
                             </Grid>
                             <Grid item xs={12}>
                                 <Divider>
-                                    <Typography variant="caption">Sign up with</Typography>
+                                    <Typography variant="caption">Acessar com</Typography>
                                 </Divider>
                             </Grid>
                             <Grid item xs={12}>

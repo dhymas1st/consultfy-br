@@ -5,10 +5,9 @@ import { useState, useEffect } from 'react';
 import { DataGridPro, GridColDef, GridToolbar, ptBR } from '@mui/x-data-grid-pro';
 import { LicenseInfo } from '@mui/x-license-pro';
 import CollapsibleTable from './CollapsibleTable';
-import axios from '../../../node_modules/axios/index';
+import api from 'services/api';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
-const ENDPOINT = 'http://15.228.251.22:3000/geOperacoesbyClient';
 const ColumnsTest = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
@@ -555,7 +554,7 @@ export const TabsMenu = () => {
     const [operations, setOperations] = useState([]);
 
     useEffect(() => {
-        Axios.post(ENDPOINT, { cpf: '214.487.188-48' }).then((res) => {
+        Axios.post(`${api}/geOperacoesbyClient`, { cpf: '214.487.188-48' }).then((res) => {
             let datas = res.data;
             let inf = [];
             //let objs = {};

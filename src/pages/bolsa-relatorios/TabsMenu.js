@@ -8,6 +8,44 @@ import CollapsibleTable from './CollapsibleTable';
 import axios from '../../../node_modules/axios/index';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
+const ENDPOINT = 'http://15.228.251.22:3000/geOperacoesbyClient';
+const ColumnsTest = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+        field: 'papper',
+        headerName: 'Empresa',
+        width: 150,
+        editable: false
+    },
+    {
+        field: 'quantity',
+        headerName: 'Quantidade',
+        type: 'number',
+        width: 150,
+        editable: false
+    },
+    {
+        field: 'vlr_unit',
+        headerName: 'Valor Unitário',
+        type: 'number',
+        width: 110,
+        editable: false
+    },
+    {
+        field: 'avg_price',
+        headerName: 'Preço Medio',
+        type: 'number',
+        width: 110,
+        editable: false
+    },
+    {
+        field: 'price',
+        headerName: 'Total',
+        type: 'number',
+        width: 110,
+        editable: false
+    }
+];
 
 const columnsVrMean = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -87,6 +125,111 @@ const columnsVrMean = [
         type: 'number',
         width: 110,
         editable: true
+    }
+];
+
+const rowsTest = [
+    {
+        id: '1',
+        date: '10/03/2020',
+        number_leaf: '19794916 1',
+        paper: 'VISTA BR MALLS PARON NM',
+        price: '1.388,00',
+        quantity: '100',
+        type_operation: 'C',
+        vlr_unit: 13.88,
+        emolumnts: '0.05',
+        others: '0.28',
+        taxes: '0.76',
+        total_taxes: '8.60',
+        tx_liquid: '0.38',
+        tx_operation: '7.13',
+        tx_reg: '0.00'
+    },
+    {
+        id: '2',
+        date: '10/03/2020',
+        number_leaf: '19794916 1',
+        paper: 'VISTA BR MALLS PARON NM',
+        price: '4.164,00',
+        quantity: '300',
+        type_operation: 'C',
+        vlr_unit: 13.88,
+        emolumnts: '0.14',
+        others: '0.83',
+        taxes: '2.28',
+        total_taxes: '25.79',
+        tx_liquid: '1.14',
+        tx_operation: '21.39',
+        tx_reg: '0.00'
+    },
+    {
+        id: '3',
+        date: '10/03/2020',
+        number_leaf: '19794916 1',
+        paper: 'VISTA BR MALLS PARON NM',
+        price: '1.388,00',
+        quantity: '100',
+        type_operation: 'C',
+        vlr_unit: 13.88,
+        emolumnts: '0.05',
+        others: '0.28',
+        taxes: '0.76',
+        total_taxes: '8.60',
+        tx_liquid: '0.38',
+        tx_operation: '7.13',
+        tx_reg: '0.00'
+    },
+    {
+        id: '4',
+        date: '10/03/2020',
+        number_leaf: '19794916 1',
+        paper: 'VISTA BR MALLS PARON NM',
+        price: '9.716,00',
+        quantity: '700',
+        type_operation: 'C',
+        vlr_unit: 13.88,
+        emolumnts: '0.32',
+        others: '1.95',
+        taxes: '5.33',
+        total_taxes: '60.18',
+        tx_liquid: '2.67',
+        tx_operation: '49.92',
+        tx_reg: '0.00'
+    },
+    {
+        id: '5',
+        date: '10/03/2020',
+        number_leaf: '19794916 1',
+        paper: 'VISTA BR MALLS PARON NM',
+        price: '1.388,00',
+        quantity: '100',
+        type_operation: 'C',
+        vlr_unit: 13.88,
+        emolumnts: '0.05',
+        others: '0.28',
+        taxes: '0.76',
+        total_taxes: '8.60',
+        tx_liquid: '0.38',
+        tx_operation: '7.13',
+        tx_reg: '0.00'
+    },
+    {
+        id: '6',
+        date: '10/03/2020',
+        number_leaf: '19794916 1',
+        paper: 'VISTA BR MALLS PARON NM',
+        price: '1.388,00',
+        quantity: '100',
+        type_operation: 'C',
+        vlr_unit: 13.88,
+        emolumnts: '0.05',
+        others: '0.28',
+        taxes: '0.76',
+        total_taxes: '8.60',
+        tx_liquid: '0.38',
+        tx_operation: '7.13',
+        tx_reg: '0.00'
     }
 ];
 
@@ -403,12 +546,98 @@ const rowsVrMean = [
 
 export const TabsMenu = () => {
     const [value, setValue] = useState('1');
+    //const [Columns, setColumns] = useState([]);
+    const [Rows, setRows] = useState([]);
+    const [dados, setDados] = useState([]);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     useEffect(() => {
-        Axios.get('http://15.228.251.22:3000/geOperacoesbyClient').then((res) => console.log(res));
+        Axios.post(ENDPOINT, { cpf: '214.487.188-48' }).then((res) => {
+            let datas = res.data;
+            let inf = [];
+            //let objs = {};
+            datas.length = 100;
+            /*const infos = res.data.reduce((acc, item) => {
+                if (!inf.find((el) => el == item.titulo)) {
+                    console.log(item.titulo);
+                    inf.push(item.titulo);
+                }
+                console.log(inf);
+                */
+            datas.map((item, arr, i) => {
+                if (inf.find((el) => el.papper == item.titulo)) {
+                    const index = inf.findIndex((el) => el.papper === item.titulo);
+                    inf[index].transactions.push(item);
+                } else {
+                    inf.push({
+                        papper: item.titulo,
+                        transactions: [item]
+                    });
+                }
+                setDados(inf);
+            });
+
+            const dadostabela = inf.map((item, array, i) => {
+                const id = inf.findIndex((el) => el.papper == item.papper);
+                const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
+                const preco = item.transactions.reduce((acc, item) => acc + parseInt(item.preco), 0);
+                const valor = item.transactions.reduce((acc, item) => acc + parseInt(item.valor), 0);
+                const avg = preco / item.transactions.length;
+                console.log(item);
+                return {
+                    id: id,
+                    papper: item.papper,
+                    quantity: quantidade,
+                    vlr_unit: preco,
+                    avg_price: avg,
+                    price: valor
+                };
+            });
+
+            setRows(dadostabela);
+
+            //}, []);
+        }, []);
+        // console.log(dados);
     }, []);
+    /*[
+        {
+            paper: 
+            transactions: [
+                1..,
+                2..
+            ]
+        }
+    ]
+
+
+    : "AMBEV S/A          ON"
+transactions: Array(24)
+0:
+brokerage: "0"
+cpf_cnpj: "214.487.188-48"
+debit_credit: "C"
+fees: "189.58"
+id: 1
+liquidation_fee: "0"
+negociacao: "1-BOVESPA"
+numero_nf: "31840164"
+observacao: ""
+outros: "0"
+pagina: "1"
+preco: "14.66"
+q: ""
+quantidade: "500"
+registration_fee: "0"
+taxes: "0"
+term: ""
+tipo_mercado: "VISTA"
+tipo_operacao: "V"
+titulo: "AMBEV S/A          ON"
+total: "189.58"
+valor: "7330.0"
+    */
     return (
         <Box>
             <TabContext value={value}>
@@ -423,8 +652,8 @@ export const TabsMenu = () => {
                 <TabPanel value="1">
                     <Box sx={{ height: 500, width: '100%' }}>
                         <DataGridPro
-                            rows={rowsVrConference}
-                            columns={columnsVrMean}
+                            rows={Rows}
+                            columns={ColumnsTest}
                             pageSize={5}
                             rowsPerPageOptions={[5]}
                             checkboxSelection

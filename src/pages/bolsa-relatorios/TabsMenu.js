@@ -406,8 +406,22 @@ export const TabsMenu = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const [operations, setOperations] = useState([]);
+
     useEffect(() => {
-        Axios.get('http://15.228.251.22:3000/geOperacoesbyClient').then((res) => console.log(res));
+        Axios.post('http://15.228.251.22:3000/geOperacoesbyClient', { cpf: '214.487.188-48' })
+            .then((res) => {
+                console.log(res);
+                {
+                    /*setOperations(res.data);*/
+                    //Esta linha usa o retorno do endpoint
+                }
+                setOperations(rowsVrConference); //comentar esta linha
+            })
+            .catch((err) => {
+                console.log(err);
+                setOperations(rowsVrConference); //comentar
+            });
     }, []);
     return (
         <Box>
@@ -423,7 +437,7 @@ export const TabsMenu = () => {
                 <TabPanel value="1">
                     <Box sx={{ height: 500, width: '100%' }}>
                         <DataGridPro
-                            rows={rowsVrConference}
+                            rows={operations}
                             columns={columnsVrMean}
                             pageSize={5}
                             rowsPerPageOptions={[5]}

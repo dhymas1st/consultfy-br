@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import api from 'services/api';
 
 function createData(name, calories, fat, carbs, protein, price) {
     return {
@@ -171,6 +172,57 @@ Row.propTypes = {
         protein: PropTypes.number.isRequired
     }).isRequired
 };
+/*
+function dados() {
+    const [dados, setDados] = React.useState([]);
+    const [transacts, setTransacts] = React.useState([]);
+
+    React.useEffect(() => {
+        async function CarregaDados() {
+        api.post('/geOperacoesbyClient', { cpf: '214.487.188-48' }).then((res) => {
+            let datas = res.data;
+            let inf = [];
+            //let objs = {};
+            datas.length = 100;
+
+            datas.map((item, arr, i) => {
+                if (inf.find((el) => el.papper == item.titulo)) {
+                    const index = inf.findIndex((el) => el.papper === item.titulo);
+                    inf[index].transactions.push(item);
+                } else {
+                    inf.push({
+                        papper: item.titulo,
+                        transactions: [item]
+                    });
+                }
+                setDados(inf);
+            });
+            console.log(inf);
+
+            const dadostabela = inf.map((item, array, i) => {
+                const id = inf.findIndex((el) => el.papper == item.papper);
+                const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
+                const preco = item.transactions.reduce((acc, item) => acc + parseInt(item.preco), 0);
+                const valor = item.transactions.reduce((acc, item) => acc + parseInt(item.valor), 0);
+                const avg = preco / item.transactions.length;
+                return {
+                    id: id,
+                    papper: item.papper,
+                    quantity: quantidade,
+                    //vlr_unit: preco,
+                    avg_price: avg,
+                    price: valor
+                };
+            });
+            setTransacts(dadostabela);
+            //console.log(dados);        
+        });
+    }
+    CarregaDados();
+    }, []);
+    return transc;
+}
+*/
 
 const rows = [
     createData('AMBEV S/A          ON', 1500, 14.66, 21990.0),
@@ -182,6 +234,54 @@ const rows = [
 ];
 
 export default function CollapsibleTable() {
+    const [dados, setDados] = React.useState([]);
+    const [transacts, setTransacts] = React.useState([]);
+
+    React.useEffect(() => {
+        let inf = [];
+
+        async function carregaNotas() {
+            const resposta = await api.post('/getOperacoesbyClient', { cpf: '214.487.188-48' });
+            const datas = resposta.data;
+            datas.length = 100;
+
+            datas.map((item, arr, i) => {
+                if (inf.find((el) => el.papper == item.titulo)) {
+                    const index = inf.findIndex((el) => el.papper === item.titulo);
+                    inf[index].transactions.push(item);
+                } else {
+                    inf.push({
+                        papper: item.titulo,
+                        transactions: [item]
+                    });
+                }
+                setDados(inf);
+            });
+
+            const dadostabela = inf.map((item, array, i) => {
+                const id = inf.findIndex((el) => el.papper == item.papper);
+                const quantidade = item.transactions.reduce((acc, item) => acc + parseInt(item.quantidade), 0);
+                const preco = item.transactions.reduce((acc, item) => acc + parseFloat(item.preco), 0);
+                const valor = item.transactions.reduce((acc, item) => acc + parseFloat(item.valor), 0);
+                const avg = preco / item.transactions.length;
+                return {
+                    id: id,
+                    papper: item.papper,
+                    quantity: quantidade,
+                    //vlr_unit: preco,
+                    avg_price: avg.toFixed(2),
+                    price: valor.toFixed(2)
+                };
+            });
+            setTransacts(dadostabela);
+        }
+        carregaNotas();
+    }, []);
+
+    const linhas = transacts.map((item) => {
+        return createData(item.papper, item.quantity, item.avg_price, item.price);
+    });
+    console.log(linhas);
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -195,7 +295,7 @@ export default function CollapsibleTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {linhas.map((row) => (
                         <Row key={row.name} row={row} />
                     ))}
                 </TableBody>

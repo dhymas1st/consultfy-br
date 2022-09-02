@@ -3,7 +3,7 @@ import Form from './Form';
 const Perfil = () => {
     return (
         <>
-            <h1>Teste</h1>
+            <h2>Perfil</h2>
             <Form />
         </>
     );

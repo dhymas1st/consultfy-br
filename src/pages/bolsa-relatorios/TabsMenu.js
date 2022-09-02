@@ -552,6 +552,8 @@ export const TabsMenu = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const [operations, setOperations] = useState([]);
+
     useEffect(() => {
         Axios.post(ENDPOINT, { cpf: '214.487.188-48' }).then((res) => {
             let datas = res.data;

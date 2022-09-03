@@ -9,10 +9,7 @@ import api from 'services/api';
 import { object } from 'prop-types';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
-<<<<<<< HEAD
 const ENDPOINT = 'http://15.228.251.22:3000/getOperacoesbyClient';
-=======
->>>>>>> 5962d847e9d9cf129bd5be804eaa660da75ccc0b
 const ColumnsTest = [
     { field: 'id', headerName: 'ID', width: 90 },
     {

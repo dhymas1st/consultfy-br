@@ -9,7 +9,7 @@ import api from 'services/api';
 import { object } from 'prop-types';
 
 LicenseInfo.setLicenseKey('f88f009b072cafbc44cd21b892432a8cTz00NjIwNCxFPTE2ODc2MTgyMDc3ODgsUz1wcm8sTE09c3Vic2NyaXB0aW9uLEtWPTI=');
-const ENDPOINT = 'http://15.228.251.22:3000/getOperacoesbyClient';
+
 const ColumnsTest = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
@@ -556,14 +556,15 @@ export const TabsMenu = () => {
     const [value, setValue] = useState('1');
     //const [Columns, setColumns] = useState([]);
     const [Rows, setRows] = useState([]);
-    const [dados, setDados] = useState([]);
+    //const [dados, setDados] = useState([]);
+    const dados = JSON.parse(localStorage.getItem('dados'));
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     const [operations, setOperations] = useState([]);
 
     useEffect(() => {
-        api.post('/getOperacoesbyClient', { cpf: '214.487.188-48' }).then((res) => {
+        api.post('/getOperacoesbyClient', { cpf: dados.cpf }).then((res) => {
             let datas = res.data;
             let inf = [];
             /*const infos = res.data.reduce((acc, item) => {
@@ -593,7 +594,7 @@ api.post('/getResumoFinanceiro', {
                         });
                         */
                 //api.post('/getResFinOp');
-                setDados(inf);
+                //setDados(inf);
             });
 
             let acoes = [];

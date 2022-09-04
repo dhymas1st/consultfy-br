@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 
 // material-ui
 import {
@@ -29,12 +29,14 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import api from 'services/api';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
 const AuthRegister = () => {
     const [level, setLevel] = useState();
     const [showPassword, setShowPassword] = useState(false);
+    const [account, setAccount] = useState('');
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -52,6 +54,20 @@ const AuthRegister = () => {
         changePassword('');
     }, []);
 
+    async function SignOn(values) {
+        const cadastro = await api.post('/login/register', {
+            nome: values.firstname,
+            sobrenome: values.lastname,
+            email: values.email,
+            senha: values.password
+        });
+
+        console.log(cadastro);
+        if (cadastro.data === 'usuario criado') {
+            return <Navigate to="/login" />;
+        }
+        setAccount('email já utilizado!');
+    }
     return (
         <>
             <Formik
@@ -71,6 +87,7 @@ const AuthRegister = () => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
+                        SignOn(values);
                         setStatus({ success: false });
                         setSubmitting(false);
                     } catch (err) {
@@ -251,6 +268,9 @@ const AuthRegister = () => {
                                         Criar conta
                                     </Button>
                                 </AnimateButton>
+                                <Typography color="red" align="center" padding="1rem">
+                                    {account}
+                                </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Divider>

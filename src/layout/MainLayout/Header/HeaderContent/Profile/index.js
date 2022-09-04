@@ -28,6 +28,7 @@ import SettingTab from './SettingTab';
 // assets
 import avatar1 from 'assets/images/users/avatar-1.jpg';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { concat } from 'lodash';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -81,6 +82,12 @@ const Profile = () => {
 
     const iconBackColorOpen = 'grey.300';
 
+    function getNome() {
+        let name = JSON.parse(localStorage.getItem('dados'));
+        const nome = concat(name.nome.split(' ')[0], ' ', name.sobrenome.substr(0, 1).toUpperCase(), '.'); // aplicar regex
+        return nome;
+    }
+
     return (
         <Box sx={{ flexShrink: 0, ml: 0.75 }}>
             <ButtonBase
@@ -98,7 +105,7 @@ const Profile = () => {
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
                     <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
-                    <Typography variant="subtitle1">Erick Said</Typography>
+                    <Typography variant="subtitle1">{getNome()}</Typography>
                 </Stack>
             </ButtonBase>
             <Popper

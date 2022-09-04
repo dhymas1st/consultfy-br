@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 
 // material-ui
 import {
@@ -18,6 +18,9 @@ import {
     Typography
 } from '@mui/material';
 
+//API
+import api from '../../../services/api';
+
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -28,13 +31,15 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { object } from 'prop-types';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
     const [checked, setChecked] = React.useState(false);
-
     const [showPassword, setShowPassword] = React.useState(false);
+    const [redirect, setRedirect] = React.useState(false);
+    const [account, setAccount] = React.useState('');
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -43,28 +48,62 @@ const AuthLogin = () => {
         event.preventDefault();
     };
 
+    async function SignIn(values) {
+        const login = await api.post('/login', {
+            email: values.email,
+            senha: values.password
+        });
+        /*
+        console.log(login.data);
+        if (login.data[0] == '23') {
+            console.log('oi');
+        } else {
+            setRedirect(login.data);
+            console.log('a');
+        }
+        */
+        //console.log(login.data);object
+
+        if (login.status == 200) {
+            localStorage.setItem('dados', JSON.stringify(login.data[0]));
+            localStorage.setItem('logado', true);
+            setRedirect(true);
+            console.log(JSON.parse(localStorage.getItem('dados')));
+        } else {
+            setAccount(login.data);
+        }
+    }
+    if (redirect) {
+        return <Navigate to="/perfil" />;
+    }
+
     return (
         <>
             <Formik
                 initialValues={{
-                    email: '',
-                    password: '123456',
+                    email: 'example@gmail.com',
+                    password: 'senha',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Digite um e-mail válido').max(255).required('O e-mail é obrigatório'),
                     password: Yup.string().max(255).required('Senha obrigatória')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        setStatus({ success: false });
-                        setSubmitting(false);
-                    } catch (err) {
-                        setStatus({ success: false });
-                        setErrors({ submit: err.message });
-                        setSubmitting(false);
+                onSubmit={
+                    //SignIn(values)
+
+                    async (values, { setErrors, setStatus, setSubmitting }) => {
+                        try {
+                            SignIn(values);
+                            setStatus({ success: false });
+                            setSubmitting(false);
+                        } catch (err) {
+                            setStatus({ success: false });
+                            setErrors({ submit: err.message });
+                            setSubmitting(false);
+                        }
                     }
-                }}
+                }
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
@@ -163,6 +202,9 @@ const AuthLogin = () => {
                                         Login
                                     </Button>
                                 </AnimateButton>
+                                <Typography color="red" align="center" padding="1rem">
+                                    {account}
+                                </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Divider>

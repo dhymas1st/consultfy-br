@@ -234,14 +234,15 @@ const rows = [
 ];
 
 export default function CollapsibleTable() {
-    const [dados, setDados] = React.useState([]);
+    //const [dados, setDados] = React.useState([]);
     const [transacts, setTransacts] = React.useState([]);
+    const dados = JSON.parse(localStorage.getItem('dados'));
 
     React.useEffect(() => {
         let inf = [];
 
         async function carregaNotas() {
-            const resposta = await api.post('/getOperacoesbyClient', { cpf: '214.487.188-48' });
+            const resposta = await api.post('/getOperacoesbyClient', { cpf: dados.cpf });
             const datas = resposta.data;
             datas.length = 100;
 

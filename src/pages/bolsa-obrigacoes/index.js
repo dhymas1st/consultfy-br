@@ -3,11 +3,13 @@ import { Grid, Typography } from '@mui/material';
 import CardImportNotes from './CardImportNotes';
 import OpeningBalance from './OpeningBalance';
 import { useState } from 'react';
+import api from 'services/api';
 
 // ==============================|| BOLSA DE VALORES - OBRIGAÇÕES ||============================== //
 
 const ExchangeObligations = () => {
     const [pdf, setPdf] = useState(['']);
+    const dados = JSON.parse(localStorage.getItem('dados'));
     const handlePdf = (e) => {
         const today = new Date();
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -18,7 +20,13 @@ const ExchangeObligations = () => {
         setPdf([file]);
         console.log(dateTime);
         console.log(e.target.files);
+        const cpf = dados.cpf.replace(/\./g, '').replace('-', '');
+        api.post(`/uploadfile/${cpf}`, {
+            image: pdf,
+            cpf: cpf
+        });
     };
+    console.log(pdf);
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* row 1 */}

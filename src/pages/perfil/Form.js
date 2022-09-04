@@ -29,12 +29,14 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import api from 'services/api';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
 const Form = () => {
     const [level, setLevel] = useState();
     const [showPassword, setShowPassword] = useState(false);
+    const [perfil, setPerfil] = useState([]);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -51,29 +53,77 @@ const Form = () => {
     useEffect(() => {
         changePassword('');
     }, []);
+    /*
+    (() => {
+    })();
+    useEffect(() => {
+        //console.log(infos[0]);
+        setPerfil(infos[0]);
+    }, []);
+*/
+    //console.log(perfil.nome);
+    //perfil();
+
+    function nomea() {
+        const infos = JSON.parse(localStorage.getItem('dados'));
+        return {
+            firstname: infos.nome,
+            lastname: infos.sobrenome,
+            cpf: infos.cpf,
+            nascimento: infos.nascimento,
+            email: infos.email,
+            telefone: infos.telefone,
+            genero: infos.genero,
+            tipoendereco: infos.tipo_endereco,
+            cep: infos.cep,
+            logradouro: infos.logradouro,
+            numero: infos.numero,
+            complemento: infos.complemento,
+            cidade: infos.cidade,
+            estado: infos.uf,
+            submit: null
+        };
+    }
+    async function AtualizaPerfil(values) {
+        //const infos = JSON.parse(localStorage.getItem('dados'));
+
+        const atualizar = await api.post('login/complete', {
+            email: values.email,
+            nome: values.firstname,
+            sobrenome: values.lastname,
+            cpf: values.cpf,
+            datanasc: values.nascimento,
+            telefone: values.telefone,
+            genero: values.genero,
+            cep: values.cep,
+            tipo_logra: values.tipoendereco,
+            logradouro: values.logradouro,
+            numero: values.numero,
+            complemento: values.complemento,
+            cidade: values.cidade,
+            uf: values.estado
+        });
+        console.log(values.cep);
+        localStorage.setItem('dados', JSON.stringify(atualizar.data));
+
+        console.log(atualizar.data[0]);
+    }
 
     return (
         <>
             <Formik
-                initialValues={{
-                    firstname: '',
-                    lastname: '',
-                    cpf: '',
-                    nascimento: '',
-                    email: '',
-                    telefone: '',
-                    submit: null
-                }}
+                initialValues={nomea()}
                 validationSchema={Yup.object().shape({
                     firstname: Yup.string().max(255).required('Este campo é obrigatório'),
                     lastname: Yup.string().max(255).required('Este campo é obrigatório'),
                     cpf: Yup.string().max(255).required('Este campo é obrigatório'),
                     nascimento: Yup.string().max(255).required('Este campo é obrigatório'),
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                    //email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                     telefone: Yup.string().max(255).required('Este campo é obrigatório')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     console.log('disparou!', values);
+                    AtualizaPerfil(values);
                     try {
                         setStatus({ success: false });
                         setSubmitting(false);
@@ -92,7 +142,7 @@ const Form = () => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="firstname-signup">Nome*</InputLabel>
                                     <OutlinedInput
-                                        id="firstname-login"
+                                        id="firstname"
                                         type="firstname"
                                         value={values.firstname}
                                         name="firstname"
@@ -182,6 +232,7 @@ const Form = () => {
                                         id="email-login"
                                         type="email"
                                         value={values.email}
+                                        disabled
                                         name="email"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
@@ -239,27 +290,6 @@ const Form = () => {
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="tipo-endereco">Tipo de endereço*</InputLabel>
-                                    <OutlinedInput
-                                        id="tipo-endereco"
-                                        type="tipo-endereco"
-                                        value={values.tipoendereco}
-                                        name="tipo-endereco"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder="Casa, apartamento, chácara"
-                                        fullWidth
-                                        error={Boolean(touched.tipoendereco && errors.tipoendereco)}
-                                    />
-                                    {touched.tipoendereco && errors.tipoendereco && (
-                                        <FormHelperText error id="helper-text-firstname-signup">
-                                            {errors.tipoendereco}
-                                        </FormHelperText>
-                                    )}
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12} md={3}>
-                                <Stack spacing={1}>
                                     <InputLabel htmlFor="cep">CEP*</InputLabel>
                                     <OutlinedInput
                                         id="cep"
@@ -275,6 +305,27 @@ const Form = () => {
                                     {touched.cep && errors.cep && (
                                         <FormHelperText error id="helper-text-firstname-signup">
                                             {errors.cep}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor="tipoendereco">Tipo de endereço*</InputLabel>
+                                    <OutlinedInput
+                                        id="tipoendereco"
+                                        type="tipoendereco"
+                                        value={values.tipoendereco}
+                                        name="tipoendereco"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        placeholder="Casa, apartamento, chácara"
+                                        fullWidth
+                                        error={Boolean(touched.tipoendereco && errors.tipoendereco)}
+                                    />
+                                    {touched.tipoendereco && errors.tipoendereco && (
+                                        <FormHelperText error id="helper-text-firstname-signup">
+                                            {errors.tipoendereco}
                                         </FormHelperText>
                                     )}
                                 </Stack>
